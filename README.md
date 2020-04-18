@@ -1,5 +1,5 @@
 # DATA PIPELINE TO PROCESS REALTIME EVENTS IN CARPOOLING
-## Author: Sri Harsha Vardhan Pathuri, Mukul Gulati, Mahateesh Rao Venepally
+## Author: Mahateesh Rao Venepally, Sri Harsha Vardhan Pathuri, Mukul Gulati
 
 
 # ABSTRACT
