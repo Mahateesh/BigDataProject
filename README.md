@@ -26,7 +26,7 @@
 -[CONCLUSION](#CONCLUSION)
 -[CHALLENGES FACED](#CHALLENGES FACED)
 -[MEMEBER CONTRIBUTION](#MEMEBER CONTRIBUTION)
-	-[MahateeshRao Venepally’s Contribution:](#MahateeshRao Venepally’s Contribution:)
+	-[Mahateesh Rao Venepally’s Contribution:](#Mahateesh Rao Venepally’s Contribution:)
 	-[Mukul Gulati’s Contribution:](#Mukul Gulati’s Contribution:)
 	-[Sri Harsha Vardhan Pathuri’s Contribution:](#Sri Harsha Vardhan Pathuri’s Contribution:)
 -[FUTURE ENHANCEMENTS](#FUTURE ENHANCEMENTS)
@@ -49,15 +49,15 @@ There is a huge amount of data of rider and driver which specifies the real time
 
 
 
-# LITERATURE SURVEY
+# <u>LITERATURE SURVEY </u>
 
-## DATA SOURCE
+## <u>DATA SOURCE </u>
 
 
 To simulate the model we need a realtime application which helps us in streaming the live location. As of now we don't have a proper source application. So, with the help of repositories developed by a UBER software engineer we collected the realtime UBER data which helps us with our application. The raw data which we are using for this project are two .csv files having the real time data of the driver as well as the rider and the details of the car used by the driver. The first csv file contains the data about the driver’s car and includes speed, time, distance, rating. The second csv file contains the information of the movement of the driver over the road as it contains the latitudinal and longitudinal location of the driver for a specific time along with the track id of the driver. 
 
 
-## KAFKA STREAM
+## <u>KAFKA STREAM </u>
 
 Apache Kafka is a distributed streaming platform. Well known for its scalability & fault tolerance, Apache Kafka is extensively used to build real time data pipelines and streaming applications. It was originally developed by LinkedIn and was later open sourced through Apache Foundation. Apache Kafka is widely used in production by well known companies like Uber, Netflix, Twitter, Spotify, LinkedIn etc.
 
@@ -68,7 +68,7 @@ In Kafka there are two major entities namely produer and customer.Here a produce
 
 ## HADOOP
 
-### HDFS DATA STORE
+### <u>HDFS DATA STORE </u>
 
 
 Hadoop File System is a filesystem designed for storing very large files with streaming data access patterns, running on clusters of commodity hardware. The HDFS is the primary storage system used by the Hadoop applications. It works on the NameNode and DataNode architecture to implement a high-performance access to data across highly scalable Hadoop clusters. It promotes rapid transfer of data between computer nodes.When HDFS takes the data, it breaks it into separate blocks and stores them in different nodes which makes it possible to process the data parallelly. It is also very robust and fault tolerant as it makes several copies of the data and stores them on different nodes so that even if one node fails or crashes the processing can be continued using the other node. It works on write once and read multiple times which helps in querying the data multiple times for the analysis purposes. It is highly capable of working with the streaming data having high throughput.
@@ -81,7 +81,7 @@ Hive is an ETL and Data warehousing tool developed on top of Hadoop Distributed 
 
 ![](Image/hive1.jpg)
 
-## UBER ENGINEERING
+## <u>UBER ENGINEERING </u>
 
 The uber uses the Kafka as the message bus for connecting different parts of the ecosystem. It collects the system and application logs as well as event data from the rider and driver applications. Then they make this data available to a variety of downstream consumers via Kafka. Here the producers are the rider app and the driver app from where the real time data is received and is pushed onto the topics. The database used by Uber in Kafka is Cassandra or Schemaless (Uber’s own scalable datastore). The consumers of the messages are :
 Surge: A service which calculates the fare and displays it on the mobile application of driver as well as the rider which are the end customers.
@@ -100,7 +100,7 @@ Our concept of car pooling matches best with the UBER technology pipeline. But i
 
 
 
-# SYSTEM ANALYSIS
+# <u>SYSTEM ANALYSIS </u>
 
 
 ![](Image/1.jpg)
@@ -109,43 +109,43 @@ In this project we are constructing a pipeline to match the Rider and the Driver
 
 
 
-## Raw Data
+## <u>Raw Data </u>
 
 
 The raw data for this project is obtained from a Github repository of a Software Engineer working for Uber which he gave in a Confluent Conference for the people who want to use the uber data for their projects. There were two different data sets of the real-time data collected by Uber. One of the data set contained all the information about the location, time, track id of the rider as well as the driver. The other data set contained the information about the car, speed of the car, track_id of the car. We converted the csv files of the raw data to JSON files and pushed them on the Kafka Queue.
 
 
-## Kafka Queue
+## <u>Kafka Queue </u>
 
 In our project we implemented the Kafka queue as a distributed streaming platform. The real-time data of the rider as well as the driver is passed onto the kafka queue and it streams the data further to spark and for real time processing of the data.
 Here, we are using the data as the producer which pushes the data onto the topic which we have created. In the topic we have created two brokers which further has two partitions and two replications. Each message that is published in the partition is assigned an offset value using which the customer reads a specific message. Then we created consumer group to collect the data from the topic. The consumer collects the message from the pipeline by specifying the relevant information about the topic, the partition and the offset which it wants to read. The pipeline is designed in such a way that all the messages are received by at least one consumer so that no message is ignored.
 
 
 
-## Data Parttitioning with SPARK
+## <u>Data Parttitioning with SPARK </u>
 
 Data Partitioning using Apache Spark:
 Apache Spark is a powerful open-source processing engine built around speed, ease of use, and sophisticated analytics, with APIs in Java, Scala, Python, R, and SQL. Spark runs programs up to 100x faster than Hadoop MapReduce in memory, or 10x faster on disk. Resilient Distributed Datasets (RDD) are a collection of various data that are so big in size, that they cannot fit into a single node and should be partitioned across various nodes. Apache Spark automatically partitions RDDs and distributes the partitions across different nodes. The RDD’s are stored in such a way that any action wont start unless an action is triggered and once it is done the transformations are stored Directed Acyclic Graphs which keep on updating with every computation. Apache Spark basically supports two types of partitioning i.e. “Hash Partitioning” and “Range Partitioning” , and it depends on the key and value pairs that which type of partitioning will take place.
 
 
-## Hadoop
+## <u>Hadoop </u>
 
 
 In this project we are using the HDFS for the purpose of storing the data. We created an AWS EC2 instance on which we installed the Hortonworks HDP. Further we created tables in the environment using Hive to transfer the csv files in the HDFS. The format of the talbes in Hive is ORC(Optimized Row Columnar), as it increases the processing speed and also the final throughput of the data while querying as it is highly capable of parallel processing and also the data can be compresses and stored. The output from the Kafka consumer is collected and is transferred to the tables created in the HDFS. The partitioning of the data is done using Apache Spark and the language used for this pipeline is Pyspark. The data that we are pushing on the HDFS is for the future analysis and references.
 
 
 
-## Real Time Processing
+## <u>Real Time Processing </u>
 
 
 The real time processing in this project includes mainly two different things, one is displaying the route of the driver using the latitudinal and longitudinal location of the driver and plotting it on a dynamic map. The second thing which we did over here is to match the driver and the rider based on the Orthodromic distance using again the latitude and longitude of the driver as well as the rider.
 
-### Mapping the Real Time data
+### <u>Mapping the Real Time data </u>
 
 
 The real-time streaming dataset which has the driver’s coordinates recorded at a time keeps on updating so to visualize that data we used a web page. We used Mapbox to create the webpage and streamed the data grouped by track_id on that page. We used a html document to visualize the dataset on a map, so it dynamically keeps on updating the location of the driver on the map. So, we were able to show the drivers with a similar kind of marker and the rider with a different marker.
 
-### Matching the driver and the rider in the real time
+### <u>Matching the driver and the rider in the real time </u>
 
 In the real-time data we have the longitude and latitude of the driver as well as the rider in the data set. As there will be multiple drivers in the area offering their services but for the cost efficiency, we must choose that driver for whom it would be most economical to pickup and drop the rider. For this purpose, we are using the Orthodromic Distance using the latitude and longitude of both the driver as well as the rider. Once we have both the both these points, we will convert it into radians and apply the following formula to calculate the distance:
   
@@ -163,9 +163,9 @@ We will calculate this distance for all the nearby drivers and for who so ever i
 
 
 
-# CODING AND TESTING
+# <u>CODING AND TESTING </u>
 
-## Source Data Manipulations
+## <u>Source Data Manipulations </u>
 
 As mentioned earlier we consider the UBER real time data for out application. This data which we collected from a github resource is in the format of CSV. We have made some preprocessing techniques like handling junk values and selecting the required columns for futhur analysis.
 
@@ -174,7 +174,7 @@ The first and foremost step of our pipeline is to parse the raw data through Apa
 Please find the Screenshot below for the CODE we used to achieve this:
 ![](Image/json.png)
 
-## Apache Kafka
+## <u>Apache Kafka </u>
 
 Apache Kafka installation:
 
@@ -308,7 +308,7 @@ We can spin up our consumer with get_simple_consumer() which works only on a Kaf
 Important thing here is we must decode the messages encoded in the code for producer. This is done as kafka stores messages in bytes format.
 
 Flask is being used so to wrap an API around it so that it can be called from the browser. 
-After importing Flask we create a new Flask App and start it at the end of the code block. In between we are setting up a route which can be called by the browser at localhost:5001/topic/<topicname> later on each route requires a function so we are creating get_messages and forwarding the topicname from the URL 
+After importing Flask we create a new Flask App and start it at the end of the code block. In between we are setting up a route which can be called by the browser at localhost:5001/topic/topicname> later on each route requires a function so we are creating get_messages and forwarding the topicname from the URL 
 
 We are making another function events which consumes the Kafka Messages and produces/yields them. Significant: We are utilizing the yield statement rather than return, in light of the fact that an arrival would end the function after utilization of the primary Kafka message. This is the idea of Python Generators. 
 
@@ -320,7 +320,7 @@ In the below code, index.html is the web page we are redirecting to for the dyna
 ![](Image/k15.png)
 
 
-## Real Time Processing
+## <u>Real Time Processing </u>
 
 
 We'll examine how to call the Python Kafka Consumer API from our Javascript frontend with Server-Sent Events and visualize them on a leaflet map in real time. For we are using leaflet.css and leaflet.js from the link (https://leafletjs.com) 
@@ -396,7 +396,7 @@ Below are the images for the above explanation.
 
 
 
-## Data Store for Future Analysis
+## <u>Data Store for Future Analysis </u>
 
 As the whole mappping process deals with streaming data produced by the mobile applications we need a reliable data store for future reference and analysis. To achieve this we have used Hadoop distibuted file system. The consumer data of the Apache Kafka is stored as CSV files which contains the information of Driver's and customer's location and related information are stored as Hive Partitioned tables in the schema Project. We used PYSPARK to get the data from the KAFKA consumer and load them into the HIVE tables created earlier in the schema.
 
@@ -477,7 +477,7 @@ As the column here is binary where 1 represents yes. I am using SUM() to determi
 
 In today's world with so much urbanization going on around us, there are a lot of people commuting from one location to another through different means of transportation. With increased commuting of people comes the increase in usage of the vehicles which inturn increases pollution and traffic. To handle these cases, this application can be used in real time to match rider and the driver who are near to each other. This helps in reduction of vehicle usage. 
 
-# CHALLENGES FACED
+# <u>CHALLENGES FACED </u>
 
 1. File Compatibility issues.
 2. Apache Kafka implementation was quite challenging on the local machine due to some port compatibility issues. I had to manually change the port of the zookeeper in the server.properties of the config directory of Apache Kafka.
@@ -487,24 +487,24 @@ In today's world with so much urbanization going on around us, there are a lot o
 
 
 
-# MEMEBER CONTRIBUTION
+# <u>MEMEBER CONTRIBUTION </u>
 
 
-### MahateeshRao Venepally's Contribution:
+### <u>Mahateesh Rao Venepally's Contribution:</u>
 
 * Took responsibility for doing research on various algorithms for matching nearest driver.
 * Finding feasible API's for integrating APACHE Kafka and Python and its implementations.
 * Integration of Python and web application to stream data in real time .
 * Implementing LEALET.css and Leaflet.js for dynamic visualization on a map in web application.
 
-### Mukul Gulati's Contribution:
+### <u>Mukul Gulati's Contribution:</u>
 
 * Took responsibility for Apache Kafka architecture  and its  design.
 * Impementation of Apache Kafka by using PUB-SUB method producing simulated data and its collections at Apache Kafkas consumer.
 * Implementing python code for different veicle's simulation endlessly from producer to consumer.
 * Implementing Kafka Consumer API's which helps in consuming the streamed messages from producer.
 
-### Sri Harsha Vardhan Pathuri's Contribution:
+### <u>Sri Harsha Vardhan Pathuri's Contribution: </u>
 
 * Took responsibility for research in Uber Engineering.
 * Data Gathering and preprocessing the acquired data to be compatible for the furthur pipeline.
@@ -513,7 +513,7 @@ In today's world with so much urbanization going on around us, there are a lot o
 
 
 
-# FUTURE ENHANCEMENTS
+# <u>FUTURE ENHANCEMENTS </u>
 
 1. This project as of now deals with a very less amount of data but in the real time implementation millions of messages will flow in the pipeline so for that we want to implement the Kafka Queue in such a way that there are multiple queues inside the main Kafka Queue where we will have one queue called the retry queue and another queue called the delay queue. The messages will are not processed by the main queue at once will come in the retry queue and in that queue the message will be processed again. But if still the message is not processed then the message will be pushed onto the delay queue which will keep on retrying to process the message but after a certain amount of time, this queue is used because we don’t want to put a lot of pressure on the pipeline just for a single message.
 
