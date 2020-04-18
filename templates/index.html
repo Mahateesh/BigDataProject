@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- LEAFLET -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+      integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+      integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+      crossorigin=""></script>
+    <!-- END LEAFLET -->
+    <title>Car pooling application live</title>
+  </head>
+  <body>
+    <h1>Car pooling application</h1>
+
+    <!-- LEAFLET -->
+    <div id="mapid" style = "width:1300px; height:640px;"></div>
+    <script>
+
+            var mymap = L.map('mapid').setView([-10.948945,-37.06], 12.5);
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox.streets',
+          accessToken: 'pk.eyJ1IjoibWFoYXRlZXNoIiwiYSI6ImNrOTRvbDFuOTBmOXMzZ21zcWV0N3g1MTIifQ.c5nPvhPEZXEea6EiH5xgBg' //ENTER YOUR ACCESS TOKEN HERE
+      }).addTo(mymap);
+
+      driverMarker1 = [];
+      driverMarker2 = [];
+      driverMarker3 = [];
+
+
+      var riderIcon = L.icon({
+      iconUrl: 'https://cdn1.iconfinder.com/data/icons/Map-Markers-Icons-Demo-PNG/256/Map-Marker-Ball-Azure.png',
+
+      iconSize:     [32, 40], // size of the icon
+      iconAnchor:   [22, 40], // point of the icon which will correspond to marker's location
+      popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+      });
+
+      L.marker([-10.918606,-37.047272], {icon: riderIcon}).addTo(mymap);
+
+      var source = new EventSource('/topic/BigDataProject'); //ENTER YOUR TOPICNAME HERE
+
+      source.addEventListener('message', function(e){
+
+        console.log('Message');
+        obj = JSON.parse(e.data);
+        console.log(obj);
+
+        if(obj.vehicleID == '00001') {
+          for (var i = 0; i < driverMarker1.length; i++) {
+            mymap.removeLayer(driverMarker1[i]);
+          }
+          marker1 = L.marker([obj.latitude, obj.longitude]).addTo(mymap);
+          driverMarker1.push(marker1);
+        }
+
+        if(obj.vehicleID == '00002') {
+          for (var i = 0; i < driverMarker2.length; i++) {
+            mymap.removeLayer(driverMarker2[i]);
+          }
+          marker2 = L.marker([obj.latitude, obj.longitude]).addTo(mymap);
+          driverMarker2.push(marker2);
+        }
+
+        if(obj.vehicleID == '00003') {
+          for (var i = 0; i < driverMarker3.length; i++) {
+            mymap.removeLayer(driverMarker3[i]);
+          }
+          marker3 = L.marker([obj.latitude, obj.longitude]).addTo(mymap);
+          driverMarker3.push(marker3);
+        }
+
+
+      }, false);
+
+    </script>
+    <!-- END LEAFLET -->
+  </body>
+</html>
