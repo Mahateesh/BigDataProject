@@ -504,6 +504,7 @@ In today's world with so much urbanization going on around us, there are a lot o
 
 
 1. Images:  Google Images and Lecture Notes
+2. Apache Kafka reading: https://rohithsankepally.github.io/Kafka-Architecture/
 2. Apache Kafka: https://kafka.apache.org/documentation/
 3. UBER ENGINEERING: https://eng.uber.com
 4. HIVE: https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-hive.html
